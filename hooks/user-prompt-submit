@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="${PLUGIN_ROOT:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
+PLUGIN_DATA_DIR="${PLUGIN_ROOT}/.codex-plugin"
+if [ ! -d "$PLUGIN_DATA_DIR" ]; then
+  PLUGIN_DATA_DIR="$PLUGIN_ROOT"
+fi
+
+# Consume stdin so Codex can send the normal hook payload without blocking.
+cat >/dev/null
+
+json_escape() {
+  python -c 'import json, sys; print(json.dumps(sys.stdin.read(), ensure_ascii=False)[1:-1])'
+}
+
+PROMPT_FILE="${PLUGIN_DATA_DIR}/prompts/router-context.md"
+if [ ! -f "$PROMPT_FILE" ]; then
+  printf '{}\n'
+  exit 0
+fi
+
+CONTEXT="$(cat "$PROMPT_FILE")"
+ESCAPED_CONTEXT="$(printf '%s' "<cognitive_adaptation_router>
+${CONTEXT}
+</cognitive_adaptation_router>" | json_escape)"
+
+printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "UserPromptSubmit",\n    "additionalContext": "%s"\n  }\n}\n' "$ESCAPED_CONTEXT"

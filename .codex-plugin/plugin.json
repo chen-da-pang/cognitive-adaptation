@@ -1,0 +1,28 @@
+{
+  "name": "cognitive-adaptation",
+  "version": "0.1.6",
+  "description": "Injects a cognitive-adaptation router context before each prompt.",
+  "author": {
+    "name": "wycm"
+  },
+  "homepage": "https://github.com/chen-da-pang/cognitive-adaptation",
+  "repository": "https://github.com/chen-da-pang/cognitive-adaptation",
+  "hooks": "./hooks/hooks.json",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cognitive Adaptation",
+    "shortDescription": "Adds a router context so the model can self-select cognitive adaptation.",
+    "longDescription": "On UserPromptSubmit, prints a short additionalContext router. If the current task is explanation, research, teaching, code walkthrough, review explanation, or debug explanation, the model should use the bundled cognitive-adaptation skill; otherwise it should ignore the router.",
+    "developerName": "wycm",
+    "category": "Coding",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://github.com/chen-da-pang/cognitive-adaptation",
+    "privacyPolicyURL": "https://github.com/chen-da-pang/cognitive-adaptation/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/chen-da-pang/cognitive-adaptation/blob/main/TERMS.md",
+    "defaultPrompt": [
+      "调研一下这个概念是什么，并讲清楚。"
+    ]
+  }
+}
