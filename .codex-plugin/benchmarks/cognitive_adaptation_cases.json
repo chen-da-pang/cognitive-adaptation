@@ -1,0 +1,92 @@
+[
+  {
+    "id": "known_terms_no_glossary",
+    "prompt": "只回答，不改文件。我已经知道 hook、router、skill 是什么。请判断这句话哪里会让 cognitive-adaptation 插件变硬：'必须逐条执行输出合约'。",
+    "expectations": [
+      "不强行解释 hook/router/skill",
+      "不出现固定的术语拆解栏目",
+      "直接指出硬化原因"
+    ]
+  },
+  {
+    "id": "new_term_needs_brief_explanation",
+    "prompt": "只回答，不改文件。解释一下 MCP 为什么会影响 Codex 工具调用，假设我不熟 MCP。",
+    "expectations": [
+      "简短解释 MCP",
+      "用逐步拆解讲清影响链路",
+      "例子可有可无"
+    ]
+  },
+  {
+    "id": "simple_judgment_short",
+    "prompt": "只回答，不改文件。这个回答方式好吗：每次都写'你现在该记住什么'？给我一个短判断。",
+    "expectations": [
+      "回答应短",
+      "不输出例子/类比",
+      "不输出固定总结"
+    ]
+  },
+  {
+    "id": "debug_needs_steps",
+    "prompt": "只回答，不改文件。我看到测试里禁止'逐条执行'，但 router 里还写着这个词，所以测试失败。请解释为什么失败以及该怎么修。",
+    "expectations": [
+      "保留逐步拆解",
+      "讲清测试断言和文本残留的关系",
+      "给出可执行修法"
+    ]
+  },
+  {
+    "id": "code_identifier_only_when_relevant",
+    "prompt": "只回答，不改文件。解释这句 shell：PLUGIN_ROOT=\"${PLUGIN_ROOT:-$(cd \"${SCRIPT_DIR}/..\" && pwd)}\"。只解释影响理解的名字，不要每个变量都拆。",
+    "expectations": [
+      "解释默认值逻辑",
+      "只拆关键变量名",
+      "不机械列出所有英文词"
+    ]
+  },
+  {
+    "id": "abstract_concept_example_helpful",
+    "prompt": "只回答，不改文件。什么叫'结构为理解服务，不为整齐服务'？这里我有点抽象，给我讲清楚。",
+    "expectations": [
+      "逐步解释",
+      "至少一个贴近本插件的例子",
+      "不为每个概念都配例子"
+    ]
+  },
+  {
+    "id": "pure_action_should_not_tutorialize",
+    "prompt": "只回答，不改文件。假如我只是让你把 README 一个错别字改掉，你应该怎么回应？",
+    "expectations": [
+      "说明应直接执行或简短确认",
+      "不进入长教程",
+      "不输出术语拆解"
+    ]
+  },
+  {
+    "id": "research_with_evidence_labels",
+    "prompt": "只回答，不联网。基于本地文件检查一个插件时，为什么不应该强制官方+社区都查？请区分事实、推断、建议。",
+    "expectations": [
+      "区分事实/推断/建议",
+      "说明本地证据优先",
+      "不强行声称社区经验"
+    ]
+  },
+  {
+    "id": "review_explanation_no_memory_section",
+    "prompt": "只回答，不改文件。review 这条规则：'每个核心概念给 1 个具体例子'。问题在哪里？",
+    "expectations": [
+      "指出过度模板化",
+      "说明何时需要例子",
+      "不输出'你现在该记住什么'"
+    ]
+  },
+  {
+    "id": "long_answer_action_items_only_if_useful",
+    "prompt": "只回答，不改文件。给我设计一版新版认知适配规则，要求保留逐步拆解，但术语、例子、类比都按需。",
+    "expectations": [
+      "结构化但不机械",
+      "保留逐步拆解为核心",
+      "可以有行动项，但不能有固定记忆段落"
+    ]
+  }
+]

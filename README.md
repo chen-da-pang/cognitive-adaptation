@@ -1,12 +1,10 @@
 # Cognitive Adaptation
 
-我会用最通俗易懂的方式解释给你听
-
 ## 一句话大白话结论
 
 这个插件的作用很简单：当你问的是“解释、调研、教学、代码讲解、review 解释、debug 解释”这类问题时，它会提醒模型先切换成更耐心、更不跳步、更少术语压缩的回答方式。
 
-它不替你回答问题。它只是把一张“回答前必须遵守的说明卡”塞进 Codex 当前这一轮对话里。
+它不替你回答问题。它只是把一张“回答前必须遵守的认知适配卡”塞进 Codex 当前这一轮对话里。
 
 ## 先说它解决什么问题
 
@@ -17,7 +15,7 @@
 - 默认你知道为什么一个 `SKILL.md` 会影响模型回答；
 - 默认你能自己补上中间推理。
 
-这个插件反过来要求 Codex：别默认读者能自己补完概念；请把我们当作需要更多耐心拆解的 ADHD / 自闭症读者来讲，先用大白话，再拆术语，再一步一步展开，避免用户还要追问两三轮才能真正听懂。
+这个插件反过来要求 Codex：别默认读者能自己补完概念；请把我们当作需要更多耐心拆解的 ADHD / 自闭症读者来讲，先用大白话，以逐步拆解为主线，术语、例子和类比按需使用，避免用户还要追问两三轮才能真正听懂。
 
 ## 术语拆解
 
@@ -65,17 +63,17 @@
 
 字面意思：技能。
 
-在这里具体指：`skills/cognitive-adaptation/SKILL.md` 这份文件。它规定模型应该怎么解释：先大白话结论，再拆术语，再逐步展开，再给例子，最后总结该记住什么。
+在这里具体指：`skills/cognitive-adaptation/SKILL.md` 这份文件。它规定模型应该怎么解释：先大白话结论，用逐步拆解讲清楚关键逻辑，再按当前问题决定要不要拆术语、举例子、做类比或补行动项。
 
 为什么叫这个：它不是普通文档，而是给模型执行的一套能力说明。
 
-### Output Contract
+### Adaptive Rules
 
-字面意思：输出合约。
+字面意思：适配规则。
 
-在这里具体指：skill 里写死的回答格式要求。只要命中解释类任务，回答就必须按那几节来，不能只给一句压缩结论。
+在这里具体指：skill 里规定的回答原则。只要命中解释类任务，回答就必须降低理解门槛，但不应该机械套固定栏目。
 
-为什么叫这个：它像合同一样，规定输出必须长什么样。
+为什么叫这个：它规定的是“怎么让用户更容易懂”，不是“每次输出必须长什么样”。
 
 ### additionalContext
 
@@ -160,7 +158,7 @@ hook 输出的结构大概是这样：
 
 ```text
 如果当前用户请求属于解释、调研、教学、代码讲解、review 解释、debug 解释类任务：
-你必须先完整读取并逐条执行 cognitive-adaptation skill 再作答。
+你必须先完整读取 cognitive-adaptation skill，再按当前问题选择合适的解释组件。
 否则忽略本条上下文。
 ```
 
@@ -174,7 +172,7 @@ hook 输出的结构大概是这样：
 skills/cognitive-adaptation/SKILL.md
 ```
 
-然后按照里面的输出合约回答。
+然后按照里面的认知适配规则回答：保留必要的逐步拆解，但不要强行输出术语拆解、例子/类比、固定总结或自检标记。
 
 ### 8. 如果任务不命中，模型忽略它
 
@@ -225,6 +223,7 @@ cognitive-adaptation/
     prompts/
       router-context.md
     tests/
+      test_adaptive_output_contract.py
       test_user_prompt_submit_hook.py
   hooks/
     hooks.json
@@ -239,7 +238,7 @@ cognitive-adaptation/
 
 - `.codex-plugin/plugin.json`：告诉 Codex 插件基本信息。
 - `.codex-plugin/prompts/router-context.md`：保存 router 文本。
-- `.codex-plugin/tests/test_user_prompt_submit_hook.py`：测试 hook 和 skill 的关键行为。
+- `.codex-plugin/tests/`：测试 hook、router 和 skill 的关键行为。
 - `hooks/user-prompt-submit`：真正被 Codex 调用的 hook 脚本。
 - `skills/cognitive-adaptation/SKILL.md`：真正规定回答方式的 skill。
 
@@ -274,10 +273,4 @@ printf '{"prompt":"调研一下 UserPromptSubmit 是什么"}' | ./hooks/user-pro
 - [PRIVACY.md](PRIVACY.md)
 - [TERMS.md](TERMS.md)
 
-## 你现在该记住什么
-
-1. Hook 负责把 router context 塞进当前对话。
-2. Router 负责判断什么时候应该加载 skill。
-3. Skill 负责规定模型应该怎样解释清楚。
-
-一句话复述：这个插件不是替模型回答，而是在合适的时候提醒模型“先别压缩，按认知适配的方式讲明白”。
+一句话复述：这个插件不是替模型回答，而是在合适的时候提醒模型“先别压缩，按认知适配的方式讲明白”，同时避免为了格式硬凑术语、例子和总结。

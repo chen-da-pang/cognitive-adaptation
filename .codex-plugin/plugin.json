@@ -1,6 +1,6 @@
 {
   "name": "cognitive-adaptation",
-  "version": "0.1.6",
+  "version": "0.1.6+codex.20260623094606",
   "description": "Injects a cognitive-adaptation router context before each prompt.",
   "author": {
     "name": "wycm"
